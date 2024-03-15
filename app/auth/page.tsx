@@ -1,7 +1,8 @@
-"use client"
+'use client'
 
 import Input from "@/components/input";
 import { useCallback, useState } from "react";
+import axios from 'axios'
 
 export default function Auth() {
 
@@ -14,6 +15,18 @@ export default function Auth() {
     const toggleVariant = useCallback(() => {
         setVariant((variant) => variant === "login" ? "register" : "login")
     }, [])
+
+    const register = useCallback(async () => {
+        try {
+            await axios.post('/api/register', {
+                email,
+                name,
+                password
+            })
+        } catch (error) {
+            console.log(error)
+        }
+    }, [email, name, password])
 
     return (
         <div className="h-full w-full bg-[url('/images/hero.jpg')] bg-no-repeat bg-center bg-fixed bg-cover">
@@ -37,23 +50,25 @@ export default function Auth() {
                             )}
                             <Input
                                 id="email"
+                                type="email"
                                 label="Email"
-                                onChange={(e: any) => setPassword(e.target.value)}
+                                onChange={(e: any) => setEmail(e.target.value)}
                                 value={email}
                             />
                             <Input
                                 id="password"
+                                type="password"
                                 label="Senha"
-                                onChange={(e: any) => setEmail(e.target.value)}
+                                onChange={(e: any) => setPassword(e.target.value)}
                                 value={password}
                             />
                         </div>
 
-                        <button className="bg-red-500 py-3 text-white rounded-md w-full mt-10 hover:bg-red-700 transition">
-                            {variant === 'login'? 'Login' : 'Sign up'}
+                        <button onClick={register} className="bg-red-500 py-3 text-white rounded-md w-full mt-10 hover:bg-red-700 transition">
+                            {variant === 'login' ? 'Login' : 'Sign up'}
                         </button>
                         <p className="text-neutral-500 mt-12">
-                            { variant === 'login' ? 'First time using netflix?' : 'Already have a account?'}
+                            {variant === 'login' ? 'First time using netflix?' : 'Already have a account?'}
                             <span onClick={toggleVariant} className="text-white ml-1 hover:underline cursor-pointer">
                                 {variant === 'login' ? 'Create an account' : 'Login'}
                             </span>
