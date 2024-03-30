@@ -6,4 +6,4 @@ npx prisma init
 
 npm i @prisma/client
 
-npx prisma db push -> sobe o schema de dados
+npx prisma db push -> sobe o schema do banco de dados
