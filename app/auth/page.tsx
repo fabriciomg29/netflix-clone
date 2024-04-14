@@ -22,19 +22,6 @@ export default function Auth() {
         setVariant((variant) => variant === "login" ? "register" : "login")
     }, [])
 
-    const register = useCallback(async () => {
-        try {
-            await axios.post('/api/register', {
-                email,
-                name,
-                password
-            })
-        } catch (error: any) {
-            console.log(error)
-        }
-
-    }, [email, name, password])
-
     const login = useCallback(async () => {
         try {
             await signIn('credentials', {
@@ -49,6 +36,21 @@ export default function Auth() {
             console.error(error)
         }
     }, [email, password, router])
+
+    const register = useCallback(async () => {
+        try {
+            await axios.post('/api/register', {
+                email,
+                name,
+                password
+            })
+
+            login()
+        } catch (error: any) {
+            console.log(error)
+        }
+
+    }, [email, name, password, login])
 
     return (
         <div className="h-full w-full bg-[url('/images/hero.jpg')] bg-no-repeat bg-center bg-fixed bg-cover">

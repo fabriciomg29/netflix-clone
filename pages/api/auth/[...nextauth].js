@@ -8,13 +8,13 @@ import GoogleProvider from 'next-auth/providers/google'
 
 export default NextAuth({
     providers: [
-        GoogleProvider({
-            clientId: process.env.GOOGLE_CLIENT_ID || '',
-            clientSecret: process.env.GOOGLE_CLIENT_SECRET || '',
-        }),
         GithubProvider({
             clientId: process.env.GITHUB_ID || '',
             clientSecret: process.env.GITHUB_SECRET || '',
+        }),
+        GoogleProvider({
+            clientId: process.env.GOOGLE_CLIENT_ID || '',
+            clientSecret: process.env.GOOGLE_CLIENT_SECRET || '',
         }),
         Credentials({
             id: 'credentials',
@@ -63,7 +63,8 @@ export default NextAuth({
         signIn: '/auth',
     },
     debug: process.env.NODE_ENV === 'development',
-    adapter: PrismaAdapter(prismadb.adapter),
+    // adapter: PrismaAdapter(prismadb.adapter),
+    adapter: PrismaAdapter(prismadb),
     session: { strategy: 'jwt' },
     jwt: { secret: process.env.NEXTAUTH_JWT_SECRET },
     secret: process.env.NEXTAUTH_SECRET
